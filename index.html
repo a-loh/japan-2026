@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Japan 2026 — Alfie & Candice</title>
+<style>
+  :root {
+    --red: #c0392b;
+    --pink: #e74c3c;
+    --dark: #1a1a2e;
+    --card: #ffffff;
+    --bg: #f5f0eb;
+    --text: #2c2c2c;
+    --muted: #777;
+    --accent-tokyo: #e74c3c;
+    --accent-disney: #3498db;
+    --accent-osaka: #e67e22;
+    --accent-kyoto: #8e44ad;
+    --accent-sapporo: #27ae60;
+    --accent-travel: #95a5a6;
+    --veg: #27ae60;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+  }
+
+  .hero {
+    background: linear-gradient(135deg, var(--dark) 0%, #16213e 50%, #0f3460 100%);
+    color: white;
+    text-align: center;
+    padding: 80px 20px 60px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='60' font-size='80' text-anchor='middle'%3E%E2%9B%A9%EF%B8%8F%3C/text%3E%3C/svg%3E") no-repeat center;
+    background-size: 200px;
+    opacity: 0.08;
+  }
+
+  .hero h1 { font-size: 2.5em; font-weight: 300; letter-spacing: 2px; position: relative; }
+  .hero h1 span { font-weight: 700; }
+  .hero .dates { font-size: 1.1em; opacity: 0.8; margin-top: 10px; position: relative; }
+  .hero .subtitle { font-size: 0.95em; opacity: 0.6; margin-top: 5px; position: relative; }
+
+  .container { max-width: 800px; margin: 0 auto; padding: 20px; }
+
+  .overview {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+    margin: 30px 0;
+  }
+
+  .overview-card {
+    background: var(--card);
+    border-radius: 12px;
+    padding: 20px 15px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+
+  .overview-card .emoji { font-size: 2em; }
+  .overview-card .label { font-size: 0.8em; color: var(--muted); margin-top: 5px; }
+  .overview-card .value { font-size: 1.1em; font-weight: 600; margin-top: 2px; }
+
+  .phase-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 40px 0 15px;
+    padding-bottom: 8px;
+    border-bottom: 3px solid;
+  }
+
+  .phase-header .phase-emoji { font-size: 1.8em; }
+  .phase-header h2 { font-size: 1.4em; font-weight: 600; }
+  .phase-header .phase-dates { font-size: 0.85em; color: var(--muted); margin-left: auto; }
+
+  .day-card {
+    background: var(--card);
+    border-radius: 12px;
+    margin: 12px 0;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    border-left: 4px solid;
+  }
+
+  .day-header {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    gap: 12px;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .day-header:hover { background: rgba(0,0,0,0.02); }
+
+  .day-num {
+    width: 45px; height: 45px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 1.1em;
+    color: white;
+    flex-shrink: 0;
+  }
+
+  .day-info { flex: 1; }
+  .day-info .day-title { font-weight: 600; font-size: 1.05em; }
+  .day-info .day-date { font-size: 0.8em; color: var(--muted); }
+
+  .day-badge {
+    font-size: 0.7em;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .day-details {
+    padding: 0 20px 20px 77px;
+  }
+
+  .timeline-item {
+    position: relative;
+    padding: 8px 0 8px 25px;
+    font-size: 0.92em;
+  }
+
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 16px;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: #ddd;
+  }
+
+  .timeline-item::after {
+    content: '';
+    position: absolute;
+    left: 3.5px; top: 24px;
+    width: 1px; height: calc(100% - 8px);
+    background: #eee;
+  }
+
+  .timeline-item:last-child::after { display: none; }
+
+  .timeline-item .time { font-weight: 600; color: var(--muted); font-size: 0.85em; }
+
+  .veg-tag {
+    display: inline-block;
+    background: #e8f5e9;
+    color: var(--veg);
+    font-size: 0.75em;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-weight: 600;
+    margin-left: 5px;
+  }
+
+  .highlight-tag {
+    display: inline-block;
+    background: #fff3e0;
+    color: #e65100;
+    font-size: 0.75em;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-weight: 600;
+    margin-left: 5px;
+  }
+
+  .baseball-tag {
+    display: inline-block;
+    background: #fce4ec;
+    color: #c62828;
+    font-size: 0.75em;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-weight: 600;
+    margin-left: 5px;
+  }
+
+  .flight-info {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 12px 15px;
+    margin: 8px 0;
+    font-size: 0.88em;
+    border: 1px solid #e9ecef;
+  }
+
+  .flight-info .route { font-weight: 600; }
+
+  details.budget-section {
+    background: var(--card);
+    border-radius: 12px;
+    margin: 30px 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    overflow: hidden;
+  }
+
+  details.budget-section summary {
+    padding: 20px;
+    font-weight: 600;
+    font-size: 1.1em;
+    cursor: pointer;
+    user-select: none;
+    list-style: none;
+  }
+
+  details.budget-section summary::before {
+    content: '+ ';
+    color: var(--muted);
+  }
+
+  details.budget-section[open] summary::before {
+    content: '- ';
+  }
+
+  details.budget-section summary::-webkit-details-marker { display: none; }
+
+  .budget-content {
+    padding: 0 20px 20px;
+  }
+
+  .budget-content table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9em;
+  }
+
+  .budget-content th {
+    text-align: left;
+    padding: 8px 10px;
+    border-bottom: 2px solid #eee;
+    color: var(--muted);
+    font-weight: 600;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .budget-content td {
+    padding: 8px 10px;
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  .budget-content tr:last-child td {
+    border-bottom: none;
+    font-weight: 700;
+    font-size: 1.05em;
+    padding-top: 12px;
+    border-top: 2px solid #eee;
+  }
+
+  .budget-content td:last-child { text-align: right; }
+  .budget-content th:last-child { text-align: right; }
+
+  .notes-section {
+    background: var(--card);
+    border-radius: 12px;
+    padding: 25px;
+    margin: 20px 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+
+  .notes-section h3 { margin-bottom: 12px; font-size: 1.1em; }
+  .notes-section ul { padding-left: 20px; }
+  .notes-section li { margin: 6px 0; font-size: 0.9em; }
+
+  .footer {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--muted);
+    font-size: 0.85em;
+  }
+
+  @media (max-width: 600px) {
+    .hero h1 { font-size: 1.8em; }
+    .day-details { padding-left: 20px; }
+    .overview { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>Japan <span>2026</span></h1>
+  <div class="dates">June 27 — July 11</div>
+  <div class="subtitle">Alfie & Candice</div>
+</div>
+
+<div class="container">
+
+  <div class="overview">
+    <div class="overview-card">
+      <div class="emoji">13</div>
+      <div class="label">Days</div>
+      <div class="value">in Japan</div>
+    </div>
+    <div class="overview-card">
+      <div class="emoji">3</div>
+      <div class="label">Cities</div>
+      <div class="value">Tokyo, Osaka, Sapporo</div>
+    </div>
+    <div class="overview-card">
+      <div class="emoji">4</div>
+      <div class="label">Disney</div>
+      <div class="value">Days</div>
+    </div>
+    <div class="overview-card">
+      <div class="emoji">1</div>
+      <div class="label">Baseball</div>
+      <div class="value">Fighters Game</div>
+    </div>
+  </div>
+
+  <!-- TRAVEL -->
+  <div class="phase-header" style="border-color: var(--accent-travel)">
+    <span class="phase-emoji">✈️</span>
+    <h2>Getting There</h2>
+    <span class="phase-dates">Jun 26–28</span>
+  </div>
+
+  <div class="day-card" style="border-color: var(--accent-travel)">
+    <div class="day-header">
+      <div class="day-num" style="background: var(--accent-travel)">0</div>
+      <div class="day-info">
+        <div class="day-title">Travel Day</div>
+        <div class="day-date">Fri Jun 26 — Sat Jun 27</div>
+      </div>
+      <span class="day-badge" style="background: #eee; color: #666;">Travel</span>
+    </div>
+    <div class="day-details">
+      <div class="timeline-item">
+        <span class="time">PM</span> Drive Kelowna → Burnaby (Hwy 5, ~4.5 hours). Dinner with parents.
+      </div>
+      <div class="flight-info">
+        <span class="route">HX081 · YVR → HKG</span><br>
+        Depart 1:30 AM Sat · Arrive 7:00 AM Sun (+1 day) · 14h 30m
+      </div>
+      <div class="flight-info">
+        <span class="route">HX608 · HKG → NRT</span><br>
+        Depart 9:10 AM Sun · Arrive 2:55 PM Sun · 4h 45m
+      </div>
+    </div>
+  </div>
+
+  <div class="day-card" style="border-color: var(--accent-tokyo)">
+    <div class="day-header">
+      <div class="day-num" style="background: var(--accent-tokyo)">1</div>
+      <div class="day-info">
+        <div class="day-title">Arrive Tokyo</div>
+        <div class="day-date">Sun Jun 28</div>
+      </div>
+      <span class="day-badge" style="background: #fdecea; color: var(--accent-tokyo);">Tokyo</span>
+    </div>
+    <div class="day-details">
+      <div class="timeline-item">
+        <span class="time">2:55 PM</span> Land at Narita. Train to hotel.
+      </div>
+      <div class="timeline-item">
+        <span class="time">6:00 PM</span> Dinner at <strong>Teppanyaki THE Nanami</strong> (31st floor of your hotel — zero walking). Alfie: Japanese Black Beef Set (¥8,800). Candice: Vegetarian Set (¥6,600). Chef grills in front of you. Call +81-3-5637-7659 to confirm veg set contents + request no dashi.
+        <span class="veg-tag">Veg Set ¥6,600</span>
+        <span class="highlight-tag">Confirm veg menu at check-in</span>
+      </div>
+      <div class="timeline-item">
+        <span class="time">8:00 PM</span> Early sleep — jet lag recovery starts.
+      </div>
+    </div>
+  </div>
+
+  <!-- DISNEY -->
+  <div class="phase-header" style="border-color: var(--accent-disney)">
+    <span class="phase-emoji">🏰</span>
+    <h2>Tokyo Disney</h2>
+    <span class="phase-dates">Jun 29 — Jul 2 · 4 days</span>
+  </div>
+
+  <div class="day-card" style="border-color: var(--accent-disney)">
+    <div class="day-header">
+      <div class="day-num" style="background: var(--accent-disney)">2</div>
+      <div class="day-info">
+        <div class="day-title">DisneySea — Fantasy Springs</div>
+        <div class="day-date">Mon Jun 29</div>
+      </div>
+      <span class="day-badge" style="background: #e3f2fd; color: var(--accent-disney);">DisneySea</span>
+    </div>
+    <div class="day-details">
+      <div class="timeline-item">
+        <span class="time">7:30 AM</span> Arrive at gates. App ready for Premier Access purchase at 9:00 AM.
+      </div>
+      <div class="timeline-item">
+        <span class="time">9:00 AM</span> <strong>Anna & Elsa's Frozen Journey</strong> (Single Rider) + <strong>Peter Pan's Never Land Adventure</strong>
+        <span class="highlight-tag">Fantasy Springs</span>
+      </div>
+      <div class="timeline-item">
+        <span class="time">11:00 AM</span> <strong>Rapunzel's Lantern Festival</strong> (Premier Access)
+      </div>
+      <div class="timeline-item">
+        <span class="time">Lunch</span> The Snuggly Duckling — Plant-Based Burger
+        <span class="veg-tag">Veg ¥1,490</span>
+      </div>
+      <div class="timeline-item">
+        <span class="time">PM</span> Tower of Terror, 20,000 Leagues Under the Sea, Soaring
+      </div>
+      <div class="timeline-item">
+        <span class="time">Evening</span> "Believe! Sea of Dreams" harbour show
+      </div>
+    </div>
+  </div>
+
+  <div class="day-card" style="border-color: var(--accent-disney)">
+    <div class="day-header">
+      <div class="day-num" style="background: var(--accent-disney)">3</div>
+      <div class="day-info">
+        <div class="day-title">Disneyland — Recovery Day</div>
+        <div class="day-date">Tue Jun 30</div>
+      </div>
+      <span class="day-badge" style="background: #e3f2fd; color: var(--accent-disney);">Disneyland</span>
+    </div>
+    <div class="day-details">
+      <div class="timeline-item">
+        <span class="time">9:00 AM</span> Rope drop: <strong>Pooh's Hunny Hunt</strong> (Tokyo-exclusive trackless ride)
+      </div>
+      <div class="timeline-item">
+        <span class="time">AM</span> <strong>Enchanted Tale of Beauty and the Beast</strong> (Single Rider) + Monsters, Inc. Ride & Go Seek
+      </div>
+      <div class="timeline-item">
+        <span class="time">Lunch</span> Plazma Ray's Diner — Plant-Based Korean Rice Bowl
+        <span class="veg-tag">Veg ¥1,790</span>
+      </div>
+      <div class="timeline-item">
+        <span class="time">PM</span> <strong>Splash Mountain</strong> (last Disney park with the original!) + Big Thunder Mountain + Pirates
+      </div>
+      <div class="timeline-item">
+        <span class="time">8:30 PM</span> <strong>DreamLights Electrical Parade</strong> — stake curb 45 min early
+        <span class="highlight-tag">Don't Miss</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="day-card" style="border-color: var(--accent-disney)">
+    <div class="day-header">
+      <div class="day-num" style="background: var(--accent-disney)">4</div>
+      <div class="day-info">
+        <div class="day-title">DisneySea — Classic Rides + Retry</div>
+        <div class="day-date">Wed Jul 1</div>
+      </div>
+      <span class="day-badge" style="background: #e3f2fd; color: var(--accent-disney);">DisneySea</span>
+    </div>
+    <div class="day-details">
+      <div class="timeline-item">
+        <span class="time">9:00 AM</span> Rope drop: <strong>Journey to the Center of the Earth</strong>
+      </div>
+      <div class="timeline-item">
+        <span class="time">AM</span> Tower of Terror + Indiana Jones + Toy Story Mania
+      </div>
+      <div class="timeline-item">
+        <span class="time">Lunch</span> Magellan's — Plant-Based Course (4 courses)
+        <span class="veg-tag">Veg ¥8,000</span>
+        <span class="highlight-tag">Reserve Jun 1</span>
+      </div>
+      <div class="timeline-item">
+        <span class="time">PM</span> Fantasy Springs retry (Single Rider) + Sindbad's Storybook Voyage + Venetian Gondolas
+      </div>
+      <div class="timeline-item">
+        <span class="time">Evening</span> "Believe! Sea of Dreams" (second viewing)
+      </div>
+    </div>
+  </div>
+
+  <div class="day-card" style="border-color: var(--accent-disney)">
+    <div class="day-header">
+      <div class="day-num" style="background: var(--accent-disney)">5</div>
+      <div class="day-info">
+        <div class="day-title">Disneyland — Catch-Up Day</div>
+        <div class="day-date">Thu Jul 2</div>
+      </div>
+      <span class="day-badge" style="background: #e3f2fd; color: var(--accent-disney);">Disneyland</span>
+    </div>
+    <div class="day-details">
+      <div class="timeline-item">
+        <span class="time">AM</span> Catch missed rides: Haunted Mansion, Star Tours, Buzz Lightyear, Jungle Cruise
+      </div>
+      <div class="timeline-item">
+        <span class="time">Lunch</span> Queen of Hearts — Garbanzo Bean Croquettes with Tomato-Soy Milk Sauce
+        <span class="veg-tag">Veg ¥1,680</span>
+      </div>
+      <div class="timeline-item">
+        <span class="time">PM</span> It's a Small World + Western River Railroad + relaxed park stroll
+      </div>
+      <div class="timeline-item">
+        <span class="time">Evening</span> Final DreamLights Parade viewing (if desired) or easy evening
+      </div>
+    </div>
+  </div>
+
+  <!-- TOKYO EXPLORE -->
+  <div class="phase-header" style="border-color: var(--accent-tokyo)">
+    <span class="phase-emoji">🗼</span>
+    <h2>Explore Tokyo</h2>
+    <span class="phase-dates">Jul 3–5 · 3 days</span>
+  </div>
+
+  <div class="day-card" style="border-color: var(--accent-tokyo)">
+    <div class="day-header">
+      <div class="day-num" style="background: var(--accent-tokyo)">6</div>
+      <div class="day-info">
+        <div class="day-title">Shibuya + Harajuku</div>
+        <div class="day-date">Fri Jul 3</div>
+      </div>
+      <span class="day-badge" style="background: #fdecea; color: var(--accent-tokyo);">Tokyo</span>
+    </div>
+    <div class="day-details">
+      <div class="timeline-item">
+        <span class="time">Morning</span> <strong>Meiji Shrine</strong> — peaceful forest walk in the heart of the city (free)
+      </div>
+      <div class="timeline-item">
+        <span class="time">Late AM</span> <strong>Harajuku Takeshita Street</strong> — fashion, crepes, culture
+      </div>
+      <div class="timeline-item">
+        <span class="time">Lunch</span> <strong>Kaiten-zushi</strong> in Harajuku/Shibuya (Genki Sushi or Sushiro). Alfie: fresh sushi picks. Candice: inari, tamago, kappa maki, edamame.
+        <span class="veg-tag">Both eat well</span>
+      </div>
+      <div class="timeline-item">
+        <span class="time">Afternoon</span> <strong>Miyashita Park</strong> rooftop — Candice can skate here
+      </div>
+      <div class="timeline-item">
+        <span class="time">Sunset</span> <strong>Shibuya Sky</strong> — 230m observation deck above Shibuya Crossing
+        <span class="highlight-tag">New since 2018</span>
+      </div>
+      <div class="timeline-item">
+        <span class="time">Evening</span> Shibuya Crossing at night. <strong>Izakaya dinner</strong> on the Shibuya backstreets — each order your own plates. Alfie: sashimi, yakitori, grilled fish. Candice: agedashi tofu, edamame, veg tempura. Request soy sauce instead of ponzu (contains citrus).
+        <span class="veg-tag">Separate plates · no ponzu</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="day-card" style="border-color: var(--accent-tokyo)">
+    <div class="day-header">
+      <div class="day-num" style="background: var(--accent-tokyo)">7</div>
+      <div class="day-info">
+        <div class="day-title">Asakusa + TeamLab Planets</div>
+        <div class="day-date">Sat Jul 4</div>
+      </div>
+      <span class="day-badge" style="background: #fdecea; color: var(--accent-tokyo);">Tokyo</span>
+    </div>
+    <div class="day-details">
+      <div class="timeline-item">
+        <span class="time">8:00 AM</span> <strong>Senso-ji Temple + Nakamise-dori</strong> — go early to beat crowds, nearly empty at this hour
+      </div>
+      <div class="timeline-item">
+        <span class="time">8:30 AM</span> Walk to <strong>Benizuru</strong> (紅鶴, ~10 min from Senso-ji). Get same-day ticket — pay ¥1,000/person, pick a 10:30 AM slot. Then leave and continue exploring Asakusa.
+        <span class="highlight-tag">Weekend = tickets essential, 60/day limit</span>
+      </div>
+      <div class="timeline-item">
+        <span class="time">10:25 AM</span> Return to <strong>Benizuru</strong> (5 min before slot). Famous fluffy rice flour pancakes with brown sugar + meringue. Counter seating only.
+        <span class="veg-tag">Vegetarian (eggs + rice flour)</span>
+      </div>
+      <div class="timeline-item">
+        <span class="time">11:30 AM</span> Walk along Sumida River, view Tokyo Skytree from the riverbank
+      </div>
+      <div class="timeline-item">
+        <span class="time">2:00 PM</span> <strong>TeamLab Planets</strong> — immersive barefoot art walk in Toyosu
+        <span class="highlight-tag">Pre-book tickets</span>
+      </div>
+      <div class="timeline-item">
+        <span class="time">4:00 PM</span> Late lunch: <strong>Kaiten-zushi</strong> (conveyor belt sushi — Kura Sushi or Sushiro). Alfie: salmon, tuna, uni, shrimp. Candice: inari sushi, tamago, kappa maki, avocado roll.
+        <span class="veg-tag">Veg picks on belt</span>
+      </div>
+      <div class="timeline-item">
+        <span class="time">Evening</span> <strong>Izakaya dinner</strong> near hotel — order individual small plates tapas-style. Alfie: sashimi platter, grilled fish, yakitori. Candice: agedashi tofu, edamame, vegetable tempura, pickled vegetables.
+        <span class="veg-tag">Separate plates</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="day-card" style="border-color: var(--accent-tokyo)">
+    <div class="day-header">
+      <div class="day-num" style="background: var(--accent-tokyo)">8</div>
+      <div class="day-info">
+        <div class="day-title">Tsukiji + Akihabara</div>
+        <div class="day-date">Sun Jul 5</div>
+      </div>
+      <span class="day-badge" style="background: #fdecea; color: var(--accent-tokyo);">Tokyo</span>
+    </div>
+    <div class="day-details">
+      <div class="timeline-item">
+        <span class="time">Morning</span> <strong>Tsukiji Outer Market</strong> — street food breakfast (tamagoyaki, sweet potato, inari sushi, fresh fruit)
+        <span class="veg-tag">Veg options</span>
+      </div>
+      <div class="timeline-item">
+        <span class="time">Afternoon</span> <strong>Akihabara</strong> — retro gaming arcades (Super Potato, GiGO), electronics, anime shops
+      </div>
+      <div class="timeline-item">
+        <span class="time">Evening</span> Last Tokyo dinner at <strong>Depachika</strong> (Isetan Shinjuku basement food hall). Alfie: wagyu bento, sushi counter, grilled eel. Candice: yuba salad, tofu varieties, bean dishes. Each picks independently.
+        <span class="veg-tag">Both eat great</span>
+      </div>
+      <div class="timeline-item">
+        <span class="time">Late</span> Pack for Osaka. Last night in Tokyo.
+      </div>
+    </div>
+  </div>
+
+  <!-- OSAKA / KYOTO -->
+  <div class="phase-header" style="border-color: var(--accent-osaka)">
+    <span class="phase-emoji">🏯</span>
+    <h2>Osaka & Kyoto</h2>
+    <span class="phase-dates">Jul 6–8 · 3 days</span>
+  </div>
+
+  <div class="day-card" style="border-color: var(--accent-osaka)">
+    <div class="day-header">
+      <div class="day-num" style="background: var(--accent-osaka)">9</div>
+      <div class="day-info">
+        <div class="day-title">Fly to Osaka + Dotonbori</div>
+        <div class="day-date">Mon Jul 6</div>
+      </div>
+      <span class="day-badge" style="background: #fff3e0; color: var(--accent-osaka);">Osaka</span>
+    </div>
+    <div class="day-details">
+      <div class="flight-info">
+        <span class="route">Jetstar · NRT → KIX</span><br>
+        ~1h 35m · Morning or evening flight
+      </div>
+      <div class="timeline-item">
+        <span class="time">PM</span> Check into hotel near Namba. Explore Shinsaibashi shopping.
+      </div>
+      <div class="timeline-item">
+        <span class="time">7:00 PM</span> <strong>Dotonbori</strong> — Osaka's iconic neon canal street. Walk-up stalls, giant signs, street food grazing.
+      </div>
+      <div class="timeline-item">
+        <span class="time">Dinner</span> <strong>Okonomiyaki at Mizuno or Chibo</strong> — each get your own pancake on the griddle. Alfie: seafood mix okonomiyaki. Candice: vegetable okonomiyaki (ask for "yasai," chef-cooked separately).
+        <span class="veg-tag">Own pancake each</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="day-card" style="border-color: var(--accent-osaka)">
+    <div class="day-header">
+      <div class="day-num" style="background: var(--accent-osaka)">10</div>
+      <div class="day-info">
+        <div class="day-title">Universal Studios Japan</div>
+        <div class="day-date">Tue Jul 7</div>
+      </div>
+      <span class="day-badge" style="background: #fff3e0; color: var(--accent-osaka);">USJ</span>
+    </div>
+    <div class="day-details">
+      <div class="timeline-item">
+        <span class="time">8:30 AM</span> Park open. Enter <strong>Super Nintendo World</strong> via Express Pass timed entry.
+      </div>
+      <div class="timeline-item">
+        <span class="time">AM</span> <strong>Mine-Cart Madness</strong> (Donkey Kong) + <strong>Mario Kart</strong> (AR goggles — removable if CG-sensitive) + Yoshi's Adventure
+      </div>
+      <div class="timeline-item">
+        <span class="time">Midday</span> <strong>The Flying Dinosaur</strong> (face-down flying coaster) + <strong>Hollywood Dream The Ride</strong>
+      </div>
+      <div class="timeline-item">
+        <span class="time">PM</span> <strong>Jurassic Park – The Ride</strong> (no CG, physical effects) + Wizarding World walk + butterbeer
+      </div>
+      <div class="timeline-item">
+        <span class="time">Solo (Alfie)</span> Harry Potter Forbidden Journey + Minion Mayhem via Single Rider while Candice explores Hogsmeade shops
+      </div>
+      <div class="timeline-item">
+        <span class="time">Evening</span> Post-USJ dinner at <strong>Kushikatsu Daruma</strong> (Shinsekai, ~20 min from USJ). Each pick your own skewers — Alfie: pork, shrimp, quail egg. Candice: lotus root, eggplant, sweet potato, shiso leaf. Separate skewers, separate frying.
+        <span class="veg-tag">Individual skewers</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="day-card" style="border-color: var(--accent-kyoto)">
+    <div class="day-header">
+      <div class="day-num" style="background: var(--accent-kyoto)">11</div>
+      <div class="day-info">
+        <div class="day-title">Kyoto Day Trip</div>
+        <div class="day-date">Wed Jul 8</div>
+      </div>
+      <span class="day-badge" style="background: #f3e5f5; color: var(--accent-kyoto);">Kyoto</span>
+    </div>
+    <div class="day-details">
+      <div class="timeline-item">
+        <span class="time">7:00 AM</span> JR train Osaka → Kyoto (30 min)
+      </div>
+      <div class="timeline-item">
+        <span class="time">7:30 AM</span> <strong>Fushimi Inari Taisha</strong> — 10,000 vermillion torii gates up Mount Inari. Go early to beat crowds.
+        <span class="highlight-tag">Japan's #1 shrine</span>
+      </div>
+      <div class="timeline-item">
+        <span class="time">10:00 AM</span> Train to Arashiyama. Walk the <strong>bamboo grove</strong>.
+      </div>
+      <div class="timeline-item">
+        <span class="time">11:30 AM</span> <strong>Shojin ryori lunch at Shigetsu</strong> (Tenryu-ji Temple) — 800-year-old Buddhist vegetarian multi-course, overlooking a UNESCO zen garden.
+        <span class="veg-tag">100% vegan · 40g+ protein</span>
+        <span class="highlight-tag">Candice's best meal</span>
+      </div>
+      <div class="timeline-item">
+        <span class="time">1:00 PM</span> <strong>Tenryu-ji zen garden</strong> (included with temple entry)
+      </div>
+      <div class="timeline-item">
+        <span class="time">2:30 PM</span> <strong>Kinkaku-ji</strong> (Golden Pavilion)
+      </div>
+      <div class="timeline-item">
+        <span class="time">4:30 PM</span> <strong>Gion district</strong> walk — geisha district, traditional wooden architecture
+      </div>
+      <div class="timeline-item">
+        <span class="time">6:00 PM</span> Train back to Osaka. Dotonbori evening stroll for dessert.
+      </div>
+    </div>
+  </div>
+
+  <!-- SAPPORO -->
+  <div class="phase-header" style="border-color: var(--accent-sapporo)">
+    <span class="phase-emoji">⚾</span>
+    <h2>Sapporo & Baseball</h2>
+    <span class="phase-dates">Jul 9–11 · 3 days</span>
+  </div>
+
+  <div class="day-card" style="border-color: var(--accent-sapporo)">
+    <div class="day-header">
+      <div class="day-num" style="background: var(--accent-sapporo)">12</div>
+      <div class="day-info">
+        <div class="day-title">Fly to Sapporo</div>
+        <div class="day-date">Thu Jul 9</div>
+      </div>
+      <span class="day-badge" style="background: #e8f5e9; color: var(--accent-sapporo);">Sapporo</span>
+    </div>
+    <div class="day-details">
+      <div class="flight-info">
+        <span class="route">Jetstar · KIX → CTS</span><br>
+        ~2h · Morning flight · Arrive Sapporo by noon
+      </div>
+      <div class="timeline-item">
+        <span class="time">PM</span> Check into hotel near Sapporo Station. Explore Susukino area.
+      </div>
+      <div class="timeline-item">
+        <span class="time">Evening</span> Walk Tanukikoji shopping arcade. Dinner at <strong>Rojiura Curry SAMURAI</strong> — Sapporo's famous soup curry. Alfie: chicken leg soup curry (whole leg in broth — Sapporo signature). Candice: vegetable soup curry with 20+ seasonal veg + tofu.
+        <span class="veg-tag">Both eat Sapporo's #1 food</span>
+        <span class="highlight-tag">Don't Miss</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="day-card" style="border-color: var(--accent-sapporo)">
+    <div class="day-header">
+      <div class="day-num" style="background: var(--accent-sapporo)">13</div>
+      <div class="day-info">
+        <div class="day-title">Fighters Baseball</div>
+        <div class="day-date">Fri Jul 10</div>
+      </div>
+      <span class="day-badge" style="background: #e8f5e9; color: var(--accent-sapporo);">Game Day</span>
+    </div>
+    <div class="day-details">
+      <div class="timeline-item">
+        <span class="time">Morning</span> <strong>Nijo Market</strong> — Alfie's seafood paradise (uni donburi, fresh crab, ikura, scallop sashimi). Candice: tamagoyaki, fruit stalls, mochi.
+        <span class="veg-tag">Candice picks veg stalls</span>
+      </div>
+      <div class="timeline-item">
+        <span class="time">Late AM</span> Odori Park walk + Sapporo TV Tower
+      </div>
+      <div class="timeline-item">
+        <span class="time">Lunch</span> <strong>SALLOGA</strong> (formerly Itadakizen) — macrobiotic vegetarian. Both eat here — genuinely delicious even for omnivores.
+        <span class="veg-tag">Veg</span>
+      </div>
+      <div class="timeline-item">
+        <span class="time">4:00 PM</span> Head to <strong>Es Con Field</strong> via JR + F-Liner shuttle (~40 min)
+      </div>
+      <div class="timeline-item">
+        <span class="time">6:00 PM</span> <strong>Hokkaido Nippon-Ham Fighters vs Seibu Lions</strong> — NPB baseball at Es Con Field
+        <span class="baseball-tag">Game Night</span>
+      </div>
+      <div class="timeline-item">
+        <span class="time">~10:00 PM</span> Post-game shuttle back to Sapporo. Late dinner at <strong>Farm to Table TERRA</strong> (Susukino, open late) — vegetarian mains with tofu + legumes.
+        <span class="veg-tag">Veg · late night</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="day-card" style="border-color: var(--accent-travel)">
+    <div class="day-header">
+      <div class="day-num" style="background: var(--accent-travel)">14</div>
+      <div class="day-info">
+        <div class="day-title">Fly Home</div>
+        <div class="day-date">Sat Jul 11</div>
+      </div>
+      <span class="day-badge" style="background: #eee; color: #666;">Travel</span>
+    </div>
+    <div class="day-details">
+      <div class="timeline-item">
+        <span class="time">6:30 AM</span> Wake up. JR Rapid Airport train to New Chitose (37 min).
+      </div>
+      <div class="flight-info">
+        <span class="route">Jetstar · CTS → NRT</span><br>
+        Depart 9:35 AM · Arrive 11:15 AM · 1h 40m
+      </div>
+      <div class="timeline-item">
+        <span class="time">11:15 AM</span> Arrive Narita. Last-minute shopping + lunch at airport.
+      </div>
+      <div class="flight-info">
+        <span class="route">HX605 · NRT → HKG</span><br>
+        Depart 3:15 PM · Arrive 7:20 PM · 5h 05m
+      </div>
+      <div class="flight-info">
+        <span class="route">HX080 · HKG → YVR</span><br>
+        Depart 10:25 PM · Arrive 8:15 PM (same day) · 12h 50m
+      </div>
+      <div class="timeline-item">
+        <span class="time">8:15 PM</span> Land YVR. Parents pick up. Sleep at Burnaby.
+      </div>
+      <div class="timeline-item">
+        <span class="time">Sun Jul 12</span> Drive Burnaby → Kelowna. Home.
+      </div>
+    </div>
+  </div>
+
+  <!-- BUDGET -->
+  <details class="budget-section">
+    <summary>Estimated Budget Breakdown (CAD)</summary>
+    <div class="budget-content">
+      <table>
+        <thead>
+          <tr><th>Category</th><th>Cost</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>International flights (HK Airlines, 2 adults)</td><td>$3,070</td></tr>
+          <tr><td>Domestic flights (3 legs, 2 adults)</td><td>$384</td></tr>
+          <tr><td>Tokyo Disney (4 days, 2 adults + Premier Access)</td><td>$780</td></tr>
+          <tr><td>USJ (passes + Express, 2 adults)</td><td>$458</td></tr>
+          <tr><td>Kyoto day trip (transport + temples + shojin ryori)</td><td>$130</td></tr>
+          <tr><td>TeamLab Planets (2 adults)</td><td>$69</td></tr>
+          <tr><td>Fighters game tickets (2 seats)</td><td>$60</td></tr>
+          <tr><td>Tokyo hotel (~8 nights)</td><td>$1,000</td></tr>
+          <tr><td>Osaka hotel (3 nights)</td><td>$248</td></tr>
+          <tr><td>Sapporo hotel (2 nights)</td><td>$320</td></tr>
+          <tr><td>Food (~$80/day × 14 days)</td><td>$1,120</td></tr>
+          <tr><td>Local transit (trains, subway, IC cards)</td><td>$200</td></tr>
+          <tr><td>Driving (Kelowna ↔ Burnaby gas)</td><td>$180</td></tr>
+          <tr><td>Travel insurance (supplemental)</td><td>$120</td></tr>
+          <tr><td>Miscellaneous / contingency</td><td>$300</td></tr>
+          <tr><td><strong>Estimated Total</strong></td><td><strong>~$8,439</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </details>
+
+  <!-- NOTES -->
+  <div class="notes-section">
+    <h3>Pre-Trip Checklist</h3>
+    <ul>
+      <li><strong>Visit Japan Web</strong> — register both passports 2 weeks before (free, saves 30+ min at Narita immigration)</li>
+      <li><strong>Travel insurance</strong> — call BMO (1-800-661-9060) to confirm pre-existing condition coverage; buy supplemental if needed</li>
+      <li><strong>Magellan's reservation</strong> — book Jun 1 at 10:00 AM JST (6:00 PM Pacific May 31) for Jul 1 lunch</li>
+      <li><strong>TeamLab Planets tickets</strong> — book 2 weeks before for Jul 4 afternoon slot</li>
+      <li><strong>USJ Express Pass</strong> — book 2+ weeks before via usjticketing.com (sells out for summer)</li>
+      <li><strong>Fighters game tickets</strong> — book via fighters.co.jp/en/ticket</li>
+      <li><strong>Tokyo Disney Resort App</strong> — download + create account before flying</li>
+      <li><strong>Print Candice's allergy card</strong> — vegetarian + orange/yuzu allergy in Japanese (see Candice's Guide below). Laminate or keep on phone.</li>
+      <li><strong>Suica/Pasmo IC card</strong> — load at airport for all train/subway/konbini purchases</li>
+      <li><strong>Medications</strong> — pack prescriptions in original pharmacy bottles with printouts</li>
+    </ul>
+  </div>
+
+  <div class="notes-section">
+    <h3>Candice's Vegetarian + Allergy Guide</h3>
+    <ul>
+      <li><strong>Konbini protein staples</strong> (available 24/7 everywhere): atsuage (18g/100g), natto (17g/pack), edamame (11g/cup), hard tofu, soy milk, hard-boiled eggs</li>
+      <li><strong style="color: #c0392b;">Orange allergy — avoid yuzu (柚子) + ponzu (ポン酢)</strong>. Yuzu is a mandarin orange hybrid used widely in Japanese cooking. Always ask before eating sauces, dressings, and ramen broths. Request soy sauce (醤油) instead of ponzu.</li>
+      <li><strong>Allergy card (print + show at restaurants):</strong><br>
+        <span style="background: #f8f9fa; display: inline-block; padding: 8px 12px; border-radius: 6px; margin-top: 4px; font-size: 0.95em; border: 1px solid #e0e0e0;">
+        私はベジタリアンです。肉、魚、出汁を含まないお料理をお願いします。<br>
+        オレンジと柚子のアレルギーがあります。柚子、ポン酢、柑橘類を避けてください。<br>
+        <em style="color: #777;">I am vegetarian — no meat, fish, or dashi. I am allergic to oranges and yuzu. No yuzu, ponzu, or citrus please.</em>
+        </span>
+      </li>
+      <li><strong>No shared cooking surfaces</strong> — won't eat food grilled on the same surface as meat. Teppanyaki (chef-controlled, separate area) and kushikatsu (individual frying) are OK.</li>
+      <li><strong>Best meal of the trip:</strong> Shojin ryori at Shigetsu, Kyoto (100% vegan, 40g+ protein, zen garden view, no citrus in traditional Buddhist cuisine)</li>
+      <li><strong>Disney parks:</strong> Look for the green leaf icon on menus — official plant-based items at 10+ restaurants</li>
+      <li><strong>Backup protein:</strong> Pack 1-2 boxes of vegan protein powder + bars from Canada for packed theme park days</li>
+    </ul>
+  </div>
+
+  <div class="footer">
+    <p>HK Airlines · YVR ↔ HKG ↔ NRT</p>
+    <p style="margin-top: 8px;">Built with care. Have the best trip.</p>
+  </div>
+
+</div>
+
+</body>
+</html>
